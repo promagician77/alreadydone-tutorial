@@ -95,8 +95,8 @@ export default function AlreadyDoneTutorial() {
     },
     {
       screen: 'voice-clone',
-      title: "It's Already Done",
-      body: 'Your voice is ready. Every manifestation will now be narrated in your own voice. Welcome home.',
+      title: 'Great Recording!',
+      body: 'Your voice clone is ready to create.',
       target: null,
       cardPosition: 'center',
     },

@@ -199,6 +199,7 @@ export default function AlreadyDoneTutorial() {
     bgDark: '#1f1a14',
     gold: '#b8862f',
     goldLight: '#d4a047',
+    goldDark: '#8a6722',
     goldSoft: '#fdf3df',
     goldFaint: '#fbe8c4',
     text: '#1a1612',
@@ -753,7 +754,7 @@ export default function AlreadyDoneTutorial() {
                           <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
                             <stop offset="0%" stopColor={c.goldLight} />
                             <stop offset="55%" stopColor={c.gold} />
-                            <stop offset="100%" stopColor={c.gold} />
+                            <stop offset="100%" stopColor={c.goldDark} />
                           </linearGradient>
                         </defs>
                         {/* Background ring (AuthTheme.stone equivalent) */}

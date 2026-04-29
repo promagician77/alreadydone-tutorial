@@ -2,7 +2,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import RecordingCircle from '@/components/RecordingCircle';
 
 export default function AlreadyDoneTutorial() {
   const [step, setStep] = useState(0);
@@ -673,7 +672,10 @@ export default function AlreadyDoneTutorial() {
               </div>
 
               <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center' }}>
-                <RecordingCircle size={126} progress={0} timerText="0:30" showCheckmark={false} outerGradient={false} />
+                <div style={{ width: 80, height: 80, borderRadius: '50%', border: `1.5px solid ${c.border}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: c.bgCard }}>
+                  <span style={{ fontSize: 22 }}>🎙️</span>
+                  <div style={{ fontSize: 14, color: c.text, fontFamily: c.sans, fontWeight: 700, marginTop: -2 }}>0:30</div>
+                </div>
               </div>
 
               <div style={{ marginTop: 16, padding: 14, background: c.bgCard, border: `1.5px solid ${c.gold}`, borderRadius: 14 }}>
@@ -733,7 +735,89 @@ export default function AlreadyDoneTutorial() {
               </div>
 
               <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center' }}>
-                <RecordingCircle size={126} progress={1} timerText="0:00" showCheckmark outerGradient />
+                {(() => {
+                  // Match Flutter `RecordingCircle` compact style (size=126), complete state.
+                  const size = 126;
+                  const strokeWidth = 4;
+                  const r = size / 2 - strokeWidth / 2;
+                  const cLen = 2 * Math.PI * r;
+                  return (
+                    <div style={{ width: size, height: size, position: 'relative' }}>
+                      <svg
+                        width={size}
+                        height={size}
+                        viewBox={`0 0 ${size} ${size}`}
+                        style={{ position: 'absolute', inset: 0 }}
+                      >
+                        <defs>
+                          <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stopColor={c.goldLight} />
+                            <stop offset="55%" stopColor={c.gold} />
+                            <stop offset="100%" stopColor={c.gold} />
+                          </linearGradient>
+                        </defs>
+                        {/* Background ring (AuthTheme.stone equivalent) */}
+                        <circle
+                          cx={size / 2}
+                          cy={size / 2}
+                          r={r}
+                          fill="none"
+                          stroke={c.border}
+                          strokeWidth={strokeWidth}
+                          strokeLinecap="round"
+                        />
+                        {/* Progress ring at 100% */}
+                        <circle
+                          cx={size / 2}
+                          cy={size / 2}
+                          r={r}
+                          fill="none"
+                          stroke="url(#ringGrad)"
+                          strokeWidth={strokeWidth}
+                          strokeLinecap="round"
+                          strokeDasharray={cLen}
+                          strokeDashoffset={0}
+                          transform={`rotate(-90 ${size / 2} ${size / 2})`}
+                        />
+                      </svg>
+
+                      <div
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: 36,
+                            fontWeight: 600,
+                            color: c.gold,
+                            lineHeight: 1,
+                            fontFamily: c.sans,
+                          }}
+                        >
+                          ✓
+                        </div>
+                        <div
+                          style={{
+                            marginTop: 6,
+                            fontSize: 16,
+                            fontWeight: 600,
+                            color: c.text,
+                            fontFamily: c.sans,
+                            fontVariantNumeric: 'tabular-nums',
+                          }}
+                        >
+                          0:00
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
 
               {current.target === 'clone-button' ? (

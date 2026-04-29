@@ -904,74 +904,105 @@ export default function AlreadyDoneTutorial() {
                 <div style={{ flex: 1, height: 3, background: c.borderSoft, borderRadius: 2 }} />
               </div>
 
-              <div style={{ marginTop: 18, textAlign: 'center', fontSize: 18, color: c.text, fontFamily: c.serif, fontWeight: 600 }}>
+              {/* Title + subtitle (matches Flutter onboarding_player_widget.dart) */}
+              <div style={{ marginTop: 18, textAlign: 'center', fontSize: 22, color: c.text, fontFamily: c.serif, fontWeight: 600, lineHeight: 1.15 }}>
                 A Love That Was Already Yours
               </div>
               <div style={{ marginTop: 4, textAlign: 'center', fontSize: 12, color: c.textMuted, fontFamily: c.sans }}>
-                In your voice
+                3 min 10 sec · In your voice
               </div>
 
-              <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center' }}>
-                <div
-                  style={{
-                    width: 120,
-                    height: 120,
-                    borderRadius: '50%',
-                    background: c.bgCard,
-                    border: `1.5px solid ${c.borderSoft}`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    position: 'relative',
-                    boxShadow: current.target === 'player-play' ? `0 0 0 4px ${c.gold}40, 0 0 40px ${c.gold}80` : 'none',
-                    animation: current.target === 'player-play' ? 'pulse 2s infinite' : 'none',
-                  }}
-                >
-                  <button
-                    onClick={() => {
-                      if (isDeepening || isCloning) return;
-                      if (current.target !== 'player-play') return;
-                      if (!hasPlayedOnce) setHasPlayedOnce(true);
-                      window.setTimeout(() => {
-                        forceNext();
-                      }, 650);
-                    }}
-                    disabled={current.target !== 'player-play'}
+              {/* Player card */}
+              <div style={{ marginTop: 22, padding: 20, background: c.bgCard, borderRadius: 16, border: `1px solid ${c.borderSoft}` }}>
+                {/* Waveform */}
+                <div style={{ height: 36, display: 'flex', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', width: '100%', gap: 1 }}>
+                    {Array.from({ length: 56 }).map((_, i) => {
+                      const heights = [8, 20, 32, 16, 36, 12, 28, 24, 14, 30];
+                      const h = heights[i % heights.length];
+                      const isPlayed = hasPlayedOnce && i < 18;
+                      return (
+                        <div key={i} style={{ flex: 1, padding: '0 0.5px' }}>
+                          <div
+                            style={{
+                              height: h,
+                              borderRadius: 3,
+                              background: isPlayed
+                                ? `linear-gradient(180deg, ${c.goldLight} 0%, ${c.gold} 55%, ${c.goldDark} 100%)`
+                                : c.border,
+                              boxShadow: isPlayed ? `0 2px 8px ${c.gold}40` : 'none',
+                              transition: 'all 200ms ease',
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Times */}
+                <div style={{ marginTop: 12, display: 'flex', justifyContent: 'space-between', fontSize: 11, color: c.textMuted, fontFamily: c.sans }}>
+                  <span style={{ fontVariantNumeric: 'tabular-nums' }}>{hasPlayedOnce ? '00:10' : '00:00'}</span>
+                  <span style={{ fontVariantNumeric: 'tabular-nums' }}>03:10</span>
+                </div>
+
+                {/* Controls */}
+                <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 16 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 999, background: '#f7f3ea', display: 'flex', alignItems: 'center', justifyContent: 'center', color: c.text }}>
+                    <span style={{ fontSize: 14 }}>⏮</span>
+                  </div>
+
+                  <div
                     style={{
-                      width: 74,
-                      height: 74,
-                      borderRadius: '50%',
-                      border: 'none',
+                      width: 56,
+                      height: 56,
+                      borderRadius: 999,
                       background: c.gold,
-                      color: '#fff',
-                      fontSize: 22,
-                      fontWeight: 800,
-                      cursor: current.target === 'player-play' ? 'pointer' : 'not-allowed',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: `0 4px 12px rgba(0,0,0,0.12)`,
+                      position: 'relative',
+                      zIndex: current.target === 'player-play' ? 35 : 1,
+                      animation: current.target === 'player-play' ? 'pulse 2s infinite' : 'none',
+                      boxShadow: current.target === 'player-play'
+                        ? `0 0 0 4px ${c.gold}40, 0 0 40px ${c.gold}80`
+                        : `0 4px 12px rgba(0,0,0,0.12)`,
                     }}
                   >
-                    ▶
-                  </button>
-                </div>
-              </div>
-
-              <div style={{ marginTop: 18 }}>
-                <div style={{ display: 'flex', gap: 4, justifyContent: 'center' }}>
-                  {[8, 20, 32, 16, 36, 12, 28, 24].map((h, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        width: 10,
-                        height: h,
-                        background: hasPlayedOnce ? `linear-gradient(180deg, ${c.goldLight}, ${c.gold})` : c.borderSoft,
-                        borderRadius: 6,
-                        opacity: hasPlayedOnce ? 1 : 0.6,
-                        transition: 'all 250ms ease',
+                    <button
+                      onClick={() => {
+                        if (isDeepening || isCloning) return;
+                        if (current.target !== 'player-play') return;
+                        if (!hasPlayedOnce) setHasPlayedOnce(true);
+                        window.setTimeout(() => {
+                          forceNext();
+                        }, 650);
                       }}
-                    />
-                  ))}
+                      disabled={current.target !== 'player-play'}
+                      style={{
+                        width: 56,
+                        height: 56,
+                        borderRadius: 999,
+                        border: 'none',
+                        background: 'transparent',
+                        color: '#fff',
+                        fontSize: 28,
+                        cursor: current.target === 'player-play' ? 'pointer' : 'not-allowed',
+                      }}
+                      aria-label="Play"
+                    >
+                      ▶
+                    </button>
+                  </div>
+
+                  <div style={{ width: 36, height: 36, borderRadius: 999, background: '#f7f3ea', display: 'flex', alignItems: 'center', justifyContent: 'center', color: c.text }}>
+                    <span style={{ fontSize: 14 }}>⏭</span>
+                  </div>
                 </div>
               </div>
 
+              {/* Deepen button (gradient border look) */}
               <button
                 onClick={() => {
                   if (isDeepening || isCloning) return;
@@ -985,31 +1016,70 @@ export default function AlreadyDoneTutorial() {
                 disabled={current.target !== 'deepen-button'}
                 style={{
                   width: '100%',
-                  marginTop: 16,
-                  padding: 15,
-                  background: current.target === 'deepen-button' ? c.gold : c.borderSoft,
-                  border: 'none',
+                  marginTop: 20,
+                  padding: '14px 18px',
                   borderRadius: 14,
-                  color: '#fff',
-                  fontSize: 15,
+                  border: `2px solid ${current.target === 'deepen-button' ? `${c.gold}80` : c.border}`,
+                  background: `linear-gradient(135deg, ${c.gold}26 0%, ${c.bgCard} 100%)`,
+                  color: c.goldDark,
+                  fontSize: 14,
                   fontWeight: 700,
                   fontFamily: c.sans,
                   cursor: current.target === 'deepen-button' ? 'pointer' : 'not-allowed',
-                  boxShadow: current.target === 'deepen-button' ? `0 0 0 4px ${c.gold}40, 0 0 40px ${c.gold}80` : 'none',
+                  boxShadow: current.target === 'deepen-button' ? `0 0 0 4px ${c.gold}30, 0 0 30px ${c.gold}60` : `0 2px 4px rgba(0,0,0,0.10)`,
+                  position: 'relative',
+                  zIndex: current.target === 'deepen-button' ? 35 : 1,
                   animation: current.target === 'deepen-button' ? 'pulse 2s infinite' : 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
                 }}
               >
-                Deepen This Manifestation
+                <span>✨</span>
+                <span style={{ flex: '0 1 auto', textAlign: 'center' }}>Deepen This Manifestation</span>
+                <span style={{ fontWeight: 800 }}>→</span>
               </button>
 
-              {current.isFinal && (
+              {/* Story preview card */}
+              <div style={{ marginTop: 20, padding: 18, background: c.bgCard, borderRadius: 16, border: `1px solid ${c.border}` }}>
+                <div style={{ fontSize: 10, letterSpacing: '0.15em', color: c.gold, fontFamily: c.sans, fontWeight: 800 }}>
+                  STORY PREVIEW
+                </div>
+                <div style={{ marginTop: 10, fontSize: 13, color: c.textMuted, fontFamily: c.sans, lineHeight: 1.6, maxHeight: 180, overflow: 'hidden' }}>
+                  Three months later, I stood on the private terrace of my estate, watching the sunrise paint the ocean in liquid gold...
+                </div>
+              </div>
+
+              {/* Bottom continue area */}
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: '0 24px 26px', background: 'transparent' }}>
+                {!hasPlayedOnce && (
+                  <div style={{ marginBottom: 8, textAlign: 'center', fontSize: 12, color: c.textMuted, fontFamily: c.sans, fontWeight: 500 }}>
+                    Play the story at least 1 time to continue
+                  </div>
+                )}
                 <button
-                  onClick={handleNext}
-                  style={{ width: '100%', marginTop: 12, padding: 15, background: c.gold, border: 'none', borderRadius: 14, color: '#fff', fontSize: 15, fontWeight: 800, fontFamily: c.sans, cursor: 'pointer', boxShadow: `0 4px 14px ${c.gold}40` }}
+                  onClick={() => {
+                    if (!hasPlayedOnce) return;
+                    if (current.isFinal) handleNext();
+                  }}
+                  style={{
+                    width: '100%',
+                    padding: 16,
+                    borderRadius: 12,
+                    border: 'none',
+                    background: hasPlayedOnce ? c.gold : c.border,
+                    color: hasPlayedOnce ? '#fff' : c.textMuted,
+                    fontSize: 15,
+                    fontFamily: c.sans,
+                    fontWeight: 800,
+                    cursor: hasPlayedOnce ? 'pointer' : 'not-allowed',
+                    boxShadow: hasPlayedOnce ? `0 4px 14px ${c.gold}40` : 'none',
+                  }}
                 >
-                  Restart Tutorial
+                  Continue
                 </button>
-              )}
+              </div>
             </div>
           )}
 

@@ -2,6 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import RecordingCircle from '@/components/RecordingCircle';
 
 export default function AlreadyDoneTutorial() {
   const [step, setStep] = useState(0);
@@ -672,10 +673,7 @@ export default function AlreadyDoneTutorial() {
               </div>
 
               <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center' }}>
-                <div style={{ width: 80, height: 80, borderRadius: '50%', border: `1.5px solid ${c.border}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: c.bgCard }}>
-                  <span style={{ fontSize: 22 }}>🎙️</span>
-                  <div style={{ fontSize: 14, color: c.text, fontFamily: c.sans, fontWeight: 700, marginTop: -2 }}>0:30</div>
-                </div>
+                <RecordingCircle size={126} progress={0} timerText="0:30" showCheckmark={false} outerGradient={false} />
               </div>
 
               <div style={{ marginTop: 16, padding: 14, background: c.bgCard, border: `1.5px solid ${c.gold}`, borderRadius: 14 }}>
@@ -728,17 +726,14 @@ export default function AlreadyDoneTutorial() {
               </div>
 
               <div style={{ marginTop: 18, textAlign: 'center', fontSize: 26, color: c.text, fontFamily: c.serif, fontWeight: 500 }}>
-                {current.target === 'clone-button' ? 'Great Recording!' : 'Your voice is ready'}
+                Great Recording!
               </div>
               <div style={{ marginTop: 4, textAlign: 'center', fontSize: 12, color: c.textMuted, fontFamily: c.sans }}>
-                {current.target === 'clone-button' ? 'Your voice clone is ready to create' : 'Welcome home'}
+                Your voice clone is ready to create
               </div>
 
               <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center' }}>
-                <div style={{ width: 80, height: 80, borderRadius: '50%', border: `2px solid ${c.gold}`, background: c.goldSoft, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                  <div style={{ fontSize: 26, color: c.gold, lineHeight: 1, fontWeight: 900 }}>✓</div>
-                  <div style={{ fontSize: 13, color: c.text, fontFamily: c.sans, fontWeight: 700, marginTop: 2 }}>0:00</div>
-                </div>
+                <RecordingCircle size={126} progress={1} timerText="0:00" showCheckmark outerGradient />
               </div>
 
               {current.target === 'clone-button' ? (
